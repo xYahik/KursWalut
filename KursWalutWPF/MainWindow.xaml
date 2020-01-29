@@ -1,0 +1,42 @@
+﻿<Window x:Class="KursWalutWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KursWalutWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="255" Width="681">
+    <Grid>
+        <Button x:Name="Licz" Content="Oblicz" HorizontalAlignment="Left" Margin="162,172,0,0" VerticalAlignment="Top" Width="75" Click="Licz_Click"/>
+        <DatePicker x:Name="DataPoczatkowa" HorizontalAlignment="Left" Margin="125,19,0,0" VerticalAlignment="Top" Width="112"/>
+        <DatePicker x:Name="DataKoncowa" HorizontalAlignment="Left" Margin="125,66,0,0" VerticalAlignment="Top" Width="112"/>
+        <Label Content="Data Początkowa:" HorizontalAlignment="Left" Margin="10,19,0,0" VerticalAlignment="Top" Width="110"/>
+        <Label Content="Data Końcowa:" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top" Width="110"/>
+        <Label Content="Kod Waluty:" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="110"/>
+
+        <ComboBox x:Name="KodWaluty" Height="26" Margin="125,113,422,0" VerticalAlignment="Top">
+            <ComboBoxItem>USD</ComboBoxItem>
+            <ComboBoxItem IsSelected="True">EUR</ComboBoxItem>
+            <ComboBoxItem>CHF</ComboBoxItem>
+            <ComboBoxItem>GBP</ComboBoxItem>
+        </ComboBox>
+        <Separator HorizontalAlignment="Left" Height="30" Margin="164,99,0,0" VerticalAlignment="Top" Width="220" RenderTransformOrigin="0.5,0.5">
+            <Separator.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Separator.RenderTransform>
+        </Separator>
+        <Label Content="Średni Kurs:" HorizontalAlignment="Left" Margin="313,17,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Odchylenie Standardowe:" HorizontalAlignment="Left" Margin="313,48,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Kurs Minimalny:" HorizontalAlignment="Left" Margin="313,79,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Kurs Maksymalny:" HorizontalAlignment="Left" Margin="313,111,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="SredniKurs" Content="0" HorizontalAlignment="Left" Margin="462,17,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="Odchylenie" Content="0" HorizontalAlignment="Left" Margin="462,48,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="KursMIN" Content="0" HorizontalAlignment="Left" Margin="462,79,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="KursMAX" Content="0" HorizontalAlignment="Left" Margin="462,110,0,0" VerticalAlignment="Top" Width="144"/>
+    </Grid>
+</Window>
