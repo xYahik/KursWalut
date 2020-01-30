@@ -37,19 +37,19 @@ namespace KursWalutWPF
 
 
             float srednia = KursWalut.ObliczSrednia(nowykurs._money);
-            SredniKurs.Content = srednia.ToString("n4");
+            SredniKurs.Content = srednia.ToString("n6");
 
             float odchylenie = KursWalut.LiczOdchylenieStandardowe(nowykurs._money, srednia);
-            Odchylenie.Content = odchylenie.ToString("n4");
+            Odchylenie.Content = odchylenie.ToString("n6");
 
             float kursminimalny = KursWalut.KursMinimalny(nowykurs._money);
-            KursMIN.Content = kursminimalny.ToString("n4");
+            KursMIN.Content = kursminimalny.ToString("n6");
 
             float kursmaksymalny = KursWalut.KursMaksymalny(nowykurs._money);
-            KursMAX.Content = kursmaksymalny.ToString("n4");
+            KursMAX.Content = kursmaksymalny.ToString("n6");
 
             var roznica = KursWalut.RoznicaKursu(nowykurs._money);
-            KursRoznica.Content = roznica.Item2.ToString("n4");
+            KursRoznica.Content = roznica.Item2.ToString("n6");
             RoznicaData.Content = roznica.Item1.ToString("yyyy/MM/dd");
         }
     }

@@ -162,6 +162,7 @@ namespace KursWalutLibrary
                     if (roznica < Math.Abs(t.Value.Kurs_Kupna - t.Value.Kurs_Sprzedarzy))
                     {
                         roznica = Math.Abs(t.Value.Kurs_Kupna - t.Value.Kurs_Sprzedarzy);
+                        Console.WriteLine(t.Key);
                         data = t.Key;
                     }
                 }

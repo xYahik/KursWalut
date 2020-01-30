@@ -40,7 +40,7 @@
         <Label x:Name="KursMAX" Content="-" HorizontalAlignment="Left" Margin="462,110,0,0" VerticalAlignment="Top" Width="144"/>
         <Label Content="Najwieksza Roznica:" HorizontalAlignment="Left" Margin="313,142,0,0" VerticalAlignment="Top" Width="144"/>
         <Label x:Name="KursRoznica" Content="-" HorizontalAlignment="Left" Margin="462,142,0,0" VerticalAlignment="Top" Width="57"/>
-        <Label Content="Dnia:" HorizontalAlignment="Left" Margin="519,141,0,0" VerticalAlignment="Top" Width="60"/>
+        <Label Content="Dnia:" HorizontalAlignment="Left" Margin="524,141,0,0" VerticalAlignment="Top" Width="60"/>
         <Label x:Name="RoznicaData" Content="RRRR/MM/DD" HorizontalAlignment="Left" Margin="566,142,0,0" VerticalAlignment="Top" Width="97"/>
     </Grid>
 </Window>
