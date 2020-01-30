@@ -47,6 +47,10 @@ namespace KursWalutWPF
 
             float kursmaksymalny = KursWalut.KursMaksymalny(nowykurs._money);
             KursMAX.Content = kursmaksymalny.ToString("n4");
+
+            var roznica = KursWalut.RoznicaKursu(nowykurs._money);
+            KursRoznica.Content = roznica.Item2.ToString("n4");
+            RoznicaData.Content = roznica.Item1.ToString("yyyy/MM/dd");
         }
     }
 }

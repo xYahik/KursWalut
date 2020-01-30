@@ -10,8 +10,14 @@ namespace KursWalutLibrary
 {
     public class KursWalut
     {
+        public class Kurs
+        {
+            public float Kurs_Kupna;
+            public float Kurs_Sprzedarzy;
+        }
         private List<DateTime> dates = new List<DateTime>();
-        public Dictionary<DateTime, float> _money = new Dictionary<DateTime, float>();
+        public Dictionary<DateTime, Kurs> _money = new Dictionary<DateTime, Kurs>();
+        List<DateTime> Years = new List<DateTime>();
         public void SetDatesList(DateTime startDate, DateTime endDate)
         {
 
@@ -19,41 +25,46 @@ namespace KursWalutLibrary
             {
                 dates.Add(dt);
             }
+
+            
+            for (var dt = startDate; dt <= endDate; dt = dt.AddYears(1))
+            {
+                Years.Add(dt);
+            }
         }
+
         public void Initialize(string moneycode)
         {
-            Uri url = new Uri("https://www.nbp.pl/kursy/xml/dir" + dates[0].ToString("yyyy") + ".txt");
-            HttpClient client = new HttpClient();
-            //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(@"application/xml"));
-            Console.WriteLine("https://www.nbp.pl/kursy/xml/dir" + dates[0].ToString("yyyy") + ".txt");
-            var result = client.GetStringAsync(url).Result;
-            //Console.WriteLine(result.ToString());
-
-            string[] datelines = result.Split('\n');
-            List<string> files = new List<string>();
-            foreach (DateTime date in dates)
+            foreach (DateTime Year in Years)
             {
-                foreach (string line in datelines.Where(l => l.Contains(date.ToString("yyMMdd")) && l.StartsWith("a")))
-                    files.Add(RemoveSpecialCharacters(line));
-            }
+                Uri url = new Uri("https://www.nbp.pl/kursy/xml/dir" + Year.ToString("yyyy") + ".txt");
+                HttpClient client = new HttpClient();
+                var result = client.GetStringAsync(url).Result;
 
-            foreach (string t in files)
-            {
-
-                url = new Uri("http://www.nbp.pl/kursy/xml/" + RemoveSpecialCharacters(t) + ".xml");
-                client = new HttpClient();
-                result = client.GetStringAsync(url).Result;
-                XDocument xdoc = XDocument.Parse(result);
-                //Console.WriteLine(xdoc);
-                foreach (XElement RateElement in xdoc.Element("tabela_kursow").Elements("pozycja"))
+                string[] datelines = result.Split('\n');
+                List<string> files = new List<string>();
+                foreach (DateTime date in dates)
                 {
-                    if (RateElement.Element("kod_waluty").Value == moneycode)
+                    foreach (string line in datelines.Where(l => l.Contains(date.ToString("yyMMdd")) && l.StartsWith("c")))
+                        files.Add(line);
+                }
+
+                foreach (string t in files)
+                {
+
+                    url = new Uri("http://www.nbp.pl/kursy/xml/" + RemoveSpecialCharacters(t) + ".xml");
+                    client = new HttpClient();
+                    result = client.GetStringAsync(url).Result;
+                    XDocument xdoc = XDocument.Parse(result);
+                    foreach (XElement RateElement in xdoc.Element("tabela_kursow").Elements("pozycja"))
                     {
-                        _money.Add(DateTime.Parse(xdoc.Element("tabela_kursow").Element("data_publikacji").Value), float.Parse(RateElement.Element("kurs_sredni").Value.Replace(",", ".")));
+                        if (RateElement.Element("kod_waluty").Value == moneycode)
+                        {
+                            _money.Add(DateTime.Parse(xdoc.Element("tabela_kursow").Element("data_publikacji").Value), new Kurs { Kurs_Kupna = float.Parse(RateElement.Element("kurs_kupna").Value.Replace(",", ".")), Kurs_Sprzedarzy = float.Parse(RateElement.Element("kurs_sprzedazy").Value.Replace(",", ".")) });
+
+                        }
 
                     }
-                    //Console.WriteLine(RateElement.Element("kurs_sredni").Value);
-
                 }
             }
         }
@@ -70,68 +81,92 @@ namespace KursWalutLibrary
             return sb.ToString();
         }
 
-        public static float ObliczSrednia(Dictionary<DateTime, float> money)
+        public static float ObliczSrednia(Dictionary<DateTime, Kurs> money)
         {
 
             float sum = 0;
             foreach (var t in money)
             {
-                sum += t.Value;
+                sum += (t.Value.Kurs_Kupna+t.Value.Kurs_Sprzedarzy)/2;
             }
             return sum / money.Count;
 
         }
-        public static float LiczOdchylenieStandardowe(Dictionary<DateTime, float> money, float srednia)
+        public static float LiczOdchylenieStandardowe(Dictionary<DateTime, Kurs> money, float srednia)
         {
             int i = 0;
             float sum = 0;
             foreach (var t in money)
             {
                 i++;
-                sum += (float)Math.Pow(t.Value - srednia, 2);
+                sum += (float)Math.Pow((t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2 - srednia, 2);
 
             }
             return sum / i;
         }
-        public static float KursMinimalny(Dictionary<DateTime, float> money)
+        public static float KursMinimalny(Dictionary<DateTime, Kurs> money)
         {
             float? min = null;
             foreach (var t in money)
             {
                 if (min == null)
                 {
-                    min = t.Value;
+                    min = (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2;
                 }
                 else
                 {
-                    if (min > t.Value)
+                    if (min > (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2)
                     {
-                        min = t.Value;
+                        min = (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2;
                     }
                 }
 
             }
             return (float)min;
         }
-        public static float KursMaksymalny(Dictionary<DateTime, float> money)
+        public static float KursMaksymalny(Dictionary<DateTime, Kurs> money)
         {
             float? max = null;
             foreach (var t in money)
             {
                 if (max == null)
                 {
-                    max = t.Value;
+                    max = (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2;
                 }
                 else
                 {
-                    if (max < t.Value)
+                    if (max < (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2)
                     {
-                        max = t.Value;
+                        max = (t.Value.Kurs_Kupna + t.Value.Kurs_Sprzedarzy) / 2;
                     }
                 }
 
             }
             return (float)max;
+        }
+
+        public static Tuple<DateTime,float> RoznicaKursu(Dictionary<DateTime, Kurs> money)
+        {
+
+            float? roznica = null;
+            DateTime data = DateTime.Now;
+            foreach (var t in money)
+            {
+                if(roznica == null)
+                {
+                    roznica = Math.Abs(t.Value.Kurs_Kupna - t.Value.Kurs_Sprzedarzy);
+                    data = t.Key;
+                }
+                else
+                {
+                    if (roznica < Math.Abs(t.Value.Kurs_Kupna - t.Value.Kurs_Sprzedarzy))
+                    {
+                        roznica = Math.Abs(t.Value.Kurs_Kupna - t.Value.Kurs_Sprzedarzy);
+                        data = t.Key;
+                    }
+                }
+            }
+            return Tuple.Create(data,(float)roznica);
         }
 
     }

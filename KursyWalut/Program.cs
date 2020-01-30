@@ -13,7 +13,7 @@ namespace KursyWalut
         static void Main(string[] args)
         {
             Console.WriteLine("Podaj kod waluty (USD, EUR, CHF, GBP)");
-            string _currencyCode = Console.ReadLine();
+            string _currencyCode = Console.ReadLine().ToUpper();
 
             Console.WriteLine("Podaj date poczatkowa [RRRR-MM-DD]");
             string _startDate = Console.ReadLine();
@@ -23,6 +23,7 @@ namespace KursyWalut
 
             DateTime startDate = DateTime.Parse(_startDate);
             DateTime endDate = DateTime.Parse(_endDate);
+
             string moneycode = _currencyCode;
 
             KursWalut nowykurs = new KursWalut();
@@ -32,17 +33,20 @@ namespace KursyWalut
 
             
             float srednia = KursWalut.ObliczSrednia(nowykurs._money);
-            Console.WriteLine(srednia.ToString("n4"));
+
+            Console.WriteLine("Sredni kurs: "+srednia.ToString("n4"));
 
             float odchylenie = KursWalut.LiczOdchylenieStandardowe(nowykurs._money, srednia);
-            Console.WriteLine(odchylenie.ToString("n4"));
+            Console.WriteLine("Odchylenie standardowe: "+odchylenie.ToString("n4"));
 
             float kursminimalny = KursWalut.KursMinimalny(nowykurs._money);
-            Console.WriteLine(kursminimalny.ToString("n4"));
+            Console.WriteLine("Kurs Minimalny: "+kursminimalny.ToString("n4"));
 
             float kursmaksymalny = KursWalut.KursMaksymalny(nowykurs._money);
-            Console.WriteLine(kursmaksymalny.ToString("n4"));
-            
+            Console.WriteLine("Kurs Maksymalny: "+kursmaksymalny.ToString("n4"));
+
+            var roznica = KursWalut.RoznicaKursu(nowykurs._money);
+            Console.WriteLine("Najwieksza roznica: "+roznica.Item2+" Dnia: "+roznica.Item1.ToString("yyyy/MM/dd"));
 
 
             Console.WriteLine("FINISHED");

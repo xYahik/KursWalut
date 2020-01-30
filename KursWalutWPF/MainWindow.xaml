@@ -34,9 +34,13 @@
         <Label Content="Odchylenie Standardowe:" HorizontalAlignment="Left" Margin="313,48,0,0" VerticalAlignment="Top" Width="144"/>
         <Label Content="Kurs Minimalny:" HorizontalAlignment="Left" Margin="313,79,0,0" VerticalAlignment="Top" Width="144"/>
         <Label Content="Kurs Maksymalny:" HorizontalAlignment="Left" Margin="313,111,0,0" VerticalAlignment="Top" Width="144"/>
-        <Label x:Name="SredniKurs" Content="0" HorizontalAlignment="Left" Margin="462,17,0,0" VerticalAlignment="Top" Width="144"/>
-        <Label x:Name="Odchylenie" Content="0" HorizontalAlignment="Left" Margin="462,48,0,0" VerticalAlignment="Top" Width="144"/>
-        <Label x:Name="KursMIN" Content="0" HorizontalAlignment="Left" Margin="462,79,0,0" VerticalAlignment="Top" Width="144"/>
-        <Label x:Name="KursMAX" Content="0" HorizontalAlignment="Left" Margin="462,110,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="SredniKurs" Content="-" HorizontalAlignment="Left" Margin="462,17,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="Odchylenie" Content="-" HorizontalAlignment="Left" Margin="462,48,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="KursMIN" Content="-" HorizontalAlignment="Left" Margin="462,79,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="KursMAX" Content="-" HorizontalAlignment="Left" Margin="462,110,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Najwieksza Roznica:" HorizontalAlignment="Left" Margin="313,142,0,0" VerticalAlignment="Top" Width="144"/>
+        <Label x:Name="KursRoznica" Content="-" HorizontalAlignment="Left" Margin="462,142,0,0" VerticalAlignment="Top" Width="57"/>
+        <Label Content="Dnia:" HorizontalAlignment="Left" Margin="519,141,0,0" VerticalAlignment="Top" Width="60"/>
+        <Label x:Name="RoznicaData" Content="RRRR/MM/DD" HorizontalAlignment="Left" Margin="566,142,0,0" VerticalAlignment="Top" Width="97"/>
     </Grid>
 </Window>
